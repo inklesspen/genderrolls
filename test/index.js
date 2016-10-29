@@ -41,6 +41,11 @@ describe('determineRolls', function () {
       determineRolls('transmasc roll -cake'), 'to equal',
       [[ALL_ROLLS.BASE, ALL_ROLLS.GQ, ALL_ROLLS.TM], [ALL_ROLLS.NO_CAKE]]);
   });
+  it('should ignore modifiers that do not exist', function () {
+    expect(
+      determineRolls('transmasc roll -cake +fnord'), 'to equal',
+      [[ALL_ROLLS.BASE, ALL_ROLLS.GQ, ALL_ROLLS.TM], [ALL_ROLLS.NO_CAKE]]);
+  });
   it('should handle requirements', function () {
     expect(
       determineRolls('transmasc roll +robot'), 'to equal',
@@ -80,6 +85,14 @@ describe('applyModifiers', function () {
 describe('genderRoll', function () {
   it('should return a value with three elements', function () {
     const result = genderRoll('transfemme roll');
+    expect(result, 'to be a', 'string');
+    expect(result.split(' '), 'to have length', 3);
+  });
+  it('should gracefully handle bad roll names', function () {
+    expect(genderRoll('nonexistent roll'), 'to be null');
+  });
+  it('should gracefully handle bad modifiers', function () {
+    const result = genderRoll('transfemme roll +fnord');
     expect(result, 'to be a', 'string');
     expect(result.split(' '), 'to have length', 3);
   });
