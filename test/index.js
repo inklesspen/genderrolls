@@ -83,10 +83,11 @@ describe('applyModifiers', function () {
 });
 
 describe('genderRoll', function () {
-  it('should return a value with three elements', function () {
+  it('should return a value with at least three words', function () {
+    // previously we could insist on exactly 3, but now we have "High Femme"
     const result = genderRoll('transfemme roll');
     expect(result, 'to be a', 'string');
-    expect(result.split(' '), 'to have length', 3);
+    expect(result.split(' ').length, 'to be greater than or equal to', 3);
   });
   it('should gracefully handle bad roll names', function () {
     expect(genderRoll('nonexistent roll'), 'to be null');
@@ -94,6 +95,6 @@ describe('genderRoll', function () {
   it('should gracefully handle bad modifiers', function () {
     const result = genderRoll('transfemme roll +fnord');
     expect(result, 'to be a', 'string');
-    expect(result.split(' '), 'to have length', 3);
+    expect(result.split(' ').length, 'to be greater than or equal to', 3);
   });
 });
