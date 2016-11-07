@@ -4,13 +4,13 @@
 ## Installation
 
 ```sh
-$ npm install --save genderrolls
+$ npm install --save @inklesspen/genderrolls
 ```
 
 ## Usage
 
 ```js
-var genderrolls = require('genderrolls');
+var genderrolls = require('@inklesspen/genderrolls');
 
 genderrolls.genderRoll('genderqueer roll');
 ```
