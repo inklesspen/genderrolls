@@ -1,6 +1,6 @@
 {
   "name": "@inklesspen/genderrolls",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "they taste terrible",
   "homepage": "",
   "author": {
@@ -43,7 +43,10 @@
       "mocha": true
     },
     "rules": {
-      "arrow-parens": ["warn", "always"]
+      "arrow-parens": [
+        "warn",
+        "always"
+      ]
     }
   },
   "repository": "inklesspen/genderrolls",
