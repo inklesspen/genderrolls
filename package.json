@@ -41,6 +41,9 @@
     "extends": "xo-space",
     "env": {
       "mocha": true
+    },
+    "rules": {
+      "arrow-parens": ["warn", "always"]
     }
   },
   "repository": "inklesspen/genderrolls",
