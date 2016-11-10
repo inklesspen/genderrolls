@@ -2,6 +2,9 @@ import expect from 'unexpected';
 import _ from 'lodash';
 import {applyModifiers, determineRolls, removeCode, genderRoll, ALL_ROLLS, ENABLED_ROLLS} from '../lib';
 
+const coreTriggers = _.flatten(
+  ENABLED_ROLLS.filter((r) => r.core).map((r) => r.trigger));
+
 describe('removeCode', function () {
   it('should remove code segments', function () {
     expect(removeCode('Type `a + b` at the prompt.'), 'to be', 'Type  at the prompt.');
@@ -53,6 +56,21 @@ describe('determineRolls', function () {
     expect(
       determineRolls('transfemme roll +robot'), 'to equal',
       [[ALL_ROLLS.BASE, ALL_ROLLS.GQ, ALL_ROLLS.TF], [ALL_ROLLS.YES_ROBOTS, ALL_ROLLS.YES_ROBOTS_TF]]);
+  });
+  it('should only match at word boundaries', function () {
+    // We've had two issues with this.
+    // 1. 'agender roll' is not yet implemented, but 'gender roll' is.
+    // A user types 'agender roll' and 'gender roll' matches, when it shouldn't.
+    // 2. 'fenby roll' and 'enby roll' are both implemented. 'fenby roll' matches
+    // both core roll types, and is thus ignored.
+    // check assumptions
+    expect(coreTriggers, 'not to contain', 'agender roll');
+    expect(coreTriggers, 'to contain', 'gender roll');
+    expect(coreTriggers, 'to contain', 'enby roll');
+    expect(coreTriggers, 'to contain', 'fenby roll');
+
+    expect(determineRolls('agender roll'), 'to be null');
+    expect(determineRolls('fenby roll'), 'not to be null');
   });
 });
 
