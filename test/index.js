@@ -106,9 +106,13 @@ describe('genderRoll', function () {
     expect(genderRoll('transfemme roll', false), 'to be a', 'array');
   });
   it('should return a value with three components', function () {
-    const result = genderRoll('transfemme roll', false);
-    expect(result, 'to be a', 'array');
-    expect(result, 'to have length', 3);
+    coreTriggers.forEach((trigger) => {
+      [trigger, `prefix ${trigger}`, `${trigger} postfix`].forEach((text) => {
+        const result = genderRoll(text, false);
+        expect(result, 'to be a', 'array');
+        expect(result, 'to have length', 3);
+      });
+    });
   });
   it('should gracefully handle bad roll names', function () {
     expect(genderRoll('nonexistent roll'), 'to be null');
