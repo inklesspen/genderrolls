@@ -18,8 +18,8 @@ describe('removeCode', function () {
 
 describe('ENABLED_ROLLS', function () {
   it('should not have multiple core rolls with the same trigger', function () {
-    ENABLED_ROLLS.filter(r => r.core).forEach(function (roll) {
-      const otherTriggers = _.flatten(ENABLED_ROLLS.filter(r => r !== roll).map(r => r.trigger));
+    ENABLED_ROLLS.filter((r) => r.core).forEach(function (roll) {
+      const otherTriggers = _.flatten(ENABLED_ROLLS.filter((r) => r !== roll).map((r) => r.trigger));
       roll.trigger.forEach(function (trigger) {
         expect(otherTriggers, 'not to contain', trigger);
       });
