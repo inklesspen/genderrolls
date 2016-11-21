@@ -58,11 +58,14 @@ describe('determineRolls', function () {
       [[ALL_ROLLS.BASE, ALL_ROLLS.GQ, ALL_ROLLS.TF], [ALL_ROLLS.YES_ROBOTS, ALL_ROLLS.YES_ROBOTS_TF]]);
   });
   it('should only match at word boundaries', function () {
-    // We've had two issues with this.
+    // We've had a few issues with this.
     // 1. 'agender roll' is not yet implemented, but 'gender roll' is.
     // A user types 'agender roll' and 'gender roll' matches, when it shouldn't.
     // 2. 'fenby roll' and 'enby roll' are both implemented. 'fenby roll' matches
     // both core roll types, and is thus ignored.
+    // 3. 'gender roll, please' needs to notice that ',' is not part of
+    // the 'roll' word. 'gender roll -cake' needs to notice that
+    // '-' is part of the 'cake' word. 'super-cake' is not '-cake'.
     // check assumptions
     expect(coreTriggers, 'not to contain', 'agender roll');
     expect(coreTriggers, 'to contain', 'gender roll');
@@ -71,6 +74,12 @@ describe('determineRolls', function () {
 
     expect(determineRolls('agender roll'), 'to be null');
     expect(determineRolls('fenby roll'), 'not to be null');
+    expect(determineRolls('gender roll!'), 'not to be null');
+    expect(determineRolls('+gender roll'), 'to be null');
+    expect(determineRolls('gender roll -cake +robot'), 'not to be null');
+    expect(determineRolls('gender roll -cake +robot')[1], 'to have length', 2);
+    expect(determineRolls('gender roll super-cake'), 'not to be null');
+    expect(determineRolls('gender roll super-cake')[1], 'to have length', 0);
   });
 });
 
