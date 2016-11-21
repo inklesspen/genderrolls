@@ -44,7 +44,7 @@
     },
     "rules": {
       "arrow-parens": [
-        "warn",
+        "error",
         "always"
       ]
     }
